@@ -1,3 +1,3 @@
 hydra:
   run:
-    dir: foo
+    dir: arbitrary_package

@@ -17,14 +17,18 @@ def test_launched_jobs(sweep_runner: TSweepRunner) -> None:  # noqa: F811 # type
         calling_file=None,
         calling_module="hydra.test_utils.a_module",
         config_path="configs/compose.yaml",
-        overrides=["hydra/sweeper=example", "hydra/launcher=basic", "foo=1,2"],
+        overrides=[
+            "hydra/sweeper=example",
+            "hydra/launcher=basic",
+            "arbitrary_package=1,2",
+        ],
         strict=True,
     )
     with sweep:
         assert sweep.returns is not None
         job_ret = sweep.returns[0]
         assert len(job_ret) == 2
-        assert job_ret[0].overrides == ["foo=1"]
-        assert job_ret[0].cfg == {"foo": 1, "bar": 100}
-        assert job_ret[1].overrides == ["foo=2"]
-        assert job_ret[1].cfg == {"foo": 2, "bar": 100}
+        assert job_ret[0].overrides == ["arbitrary_package=1"]
+        assert job_ret[0].cfg == {"arbitrary_package": 1, "bar": 100}
+        assert job_ret[1].overrides == ["arbitrary_package=2"]
+        assert job_ret[1].cfg == {"arbitrary_package": 2, "bar": 100}

@@ -31,10 +31,12 @@ store.add(
 store.add(
     path="dataset",
     name="config_without_extension",
-    node=OmegaConf.create({"foo": "bar"}),
+    node=OmegaConf.create({"arbitrary_package": "bar"}),
 )
 store.add(
-    path="", name="config_without_group.yaml", node=OmegaConf.create({"group": False}),
+    path="",
+    name="config_without_group.yaml",
+    node=OmegaConf.create({"dataset": False}),
 )
 
 

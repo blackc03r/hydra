@@ -84,7 +84,10 @@ class LauncherTestSuite:
             strict=True,
         )
         expected_overrides = [["group1=file1"], ["group1=file2"]]
-        expected_conf = [OmegaConf.create({"foo": 10}), OmegaConf.create({"foo": 20})]
+        expected_conf = [
+            OmegaConf.create({"arbitrary_package": 10}),
+            OmegaConf.create({"arbitrary_package": 20}),
+        ]
         with sweep:
             assert sweep.returns is not None
             assert len(sweep.returns[0]) == 2
@@ -158,7 +161,7 @@ def sweep_1_job(
         job_ret = sweep.returns[0]
         assert len(job_ret) == 1
         assert job_ret[0].overrides == []
-        assert job_ret[0].cfg == {"foo": 10, "bar": 100}
+        assert job_ret[0].cfg == {"arbitrary_package": 10, "bar": 100}
         assert job_ret[0].hydra_cfg.hydra.job.name == "a_module", (
             "Unexpected job name: " + job_ret[0].hydra_cfg.hydra.job.name
         )
@@ -176,7 +179,7 @@ def sweep_2_jobs(sweep_runner: TSweepRunner, overrides: List[str]) -> None:
         config_path="configs/compose.yaml",
         overrides=overrides,
     )
-    base = OmegaConf.create({"foo": 10, "bar": 100, "a": 0})
+    base = OmegaConf.create({"arbitrary_package": 10, "bar": 100, "a": 0})
 
     with sweep:
         assert sweep.temp_dir is not None
@@ -214,7 +217,7 @@ def not_sweeping_hydra_overrides(
         overrides=overrides,
         strict=None,
     )
-    base = OmegaConf.create({"foo": 10, "bar": 100})
+    base = OmegaConf.create({"arbitrary_package": 10, "bar": 100})
 
     with sweep:
         assert sweep.returns is not None
@@ -243,8 +246,8 @@ def sweep_two_config_groups(sweep_runner: TSweepRunner, overrides: List[str]) ->
     )
     expected_overrides = [["group1=file1"], ["group1=file2"]]
     expected_conf = [
-        OmegaConf.create({"foo": 10, "bar": 100}),
-        OmegaConf.create({"foo": 20, "bar": 100}),
+        OmegaConf.create({"arbitrary_package": 10, "bar": 100}),
+        OmegaConf.create({"arbitrary_package": 20, "bar": 100}),
     ]
     with sweep:
         assert sweep.returns is not None

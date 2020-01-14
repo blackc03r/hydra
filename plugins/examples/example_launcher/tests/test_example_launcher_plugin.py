@@ -42,7 +42,7 @@ class TestExampleLauncher(LauncherTestSuite):
                 "hydra": {
                     "launcher": {
                         "class": "hydra_plugins.example_launcher.ExampleLauncher",
-                        "params": {"foo": 10, "bar": "abcde"},
+                        "params": {"arbitrary_package": 10, "bar": "abcde"},
                     }
                 },
             },

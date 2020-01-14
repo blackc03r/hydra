@@ -8,7 +8,7 @@ from hydra.plugins.config import ConfigLoadError, ConfigSource, ObjectType
 
 class ConfigSourceTestSuite:
     def test_source_load_config(self, type_: Type[ConfigSource], path: str) -> None:
-        src = type_(provider="foo", path=path)
+        src = type_(provider="arbitrary_package", path=path)
 
         assert src.load_config(config_path="dataset/imagenet.yaml").config == {
             "dataset": {"name": "imagenet", "path": "/datasets/imagenet"}
@@ -20,24 +20,24 @@ class ConfigSourceTestSuite:
 
         assert src.load_config(
             config_path="dataset/config_without_extension"
-        ).config == {"foo": "bar"}
+        ).config == {"arbitrary_package": "bar"}
 
         assert src.load_config(config_path="config_without_group.yaml").config == {
-            "group": False
+            "dataset": False
         }
 
         with pytest.raises(ConfigLoadError):
             src.load_config(config_path="dataset/not_found.yaml")
 
     def test_source_file_exists(self, type_: Type[ConfigSource], path: str) -> None:
-        src = type_(provider="foo", path=path)
+        src = type_(provider="arbitrary_package", path=path)
 
         assert src.exists("dataset/config_without_extension")
         assert src.exists("dataset/imagenet.yaml")
         assert not src.exists("not_there.yaml")
 
     def test_source_file_type(self, type_: Type[ConfigSource], path: str) -> None:
-        src = type_(provider="foo", path=path)
+        src = type_(provider="arbitrary_package", path=path)
 
         assert src.get_type("dataset/imagenet.yaml") == ObjectType.CONFIG
         assert src.get_type("dataset/config_without_extension") == ObjectType.CONFIG
@@ -68,6 +68,6 @@ class ConfigSourceTestSuite:
         results_filter: Optional[ObjectType],
         expected: List[str],
     ) -> None:
-        src = type_(provider="foo", path=path)
+        src = type_(provider="arbitrary_package", path=path)
         ret = src.list(config_path=config_path, results_filter=results_filter)
         assert ret == expected
