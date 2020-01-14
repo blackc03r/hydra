@@ -31,7 +31,7 @@ store.add(
 store.add(
     path="dataset",
     name="config_without_extension",
-    node=OmegaConf.create({"arbitrary_package": "bar"}),
+    node=OmegaConf.create({"foo": "bar"}),
 )
 store.add(
     path="",

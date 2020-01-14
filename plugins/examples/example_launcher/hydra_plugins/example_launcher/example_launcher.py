@@ -40,7 +40,7 @@ class ExampleLauncher(Launcher):
         self.config_loader: Optional[ConfigLoader] = None
         self.task_function: Optional[TaskFunction] = None
 
-        # arbitrary_package and var are coming from the the plugin's configuration
+        # foo and var are coming from the the plugin's configuration
         self.foo = foo
         self.bar = bar
 
@@ -68,7 +68,7 @@ class ExampleLauncher(Launcher):
         sweep_dir = Path(str(self.config.hydra.sweep.dir))
         sweep_dir.mkdir(parents=True, exist_ok=True)
         log.info(
-            "Example Launcher(arbitrary_package={}, bar={}) is launching {} jobs locally".format(
+            "Example Launcher(foo={}, bar={}) is launching {} jobs locally".format(
                 self.foo, self.bar, len(job_overrides)
             )
         )
