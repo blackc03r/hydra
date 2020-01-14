@@ -23,7 +23,7 @@ class ConfigSourceTestSuite:
         ).config == {"foo": "bar"}
 
         assert src.load_config(config_path="config_without_group.yaml").config == {
-            "dataset": False
+            "group": False
         }
 
         with pytest.raises(ConfigLoadError):

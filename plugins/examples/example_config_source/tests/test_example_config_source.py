@@ -34,9 +34,7 @@ store.add(
     node=OmegaConf.create({"foo": "bar"}),
 )
 store.add(
-    path="",
-    name="config_without_group.yaml",
-    node=OmegaConf.create({"dataset": False}),
+    path="", name="config_without_group.yaml", node=OmegaConf.create({"group": False}),
 )
 
 
