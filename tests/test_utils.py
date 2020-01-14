@@ -116,8 +116,8 @@ def test_get_original_cwd() -> None:
 @pytest.mark.parametrize(  # type: ignore
     "orig_cwd, path, expected",
     [
-        ("/home/omry/hydra", "foo/bar", "/home/omry/hydra/foo/bar",),
-        ("/home/omry/hydra/", "foo/bar", "/home/omry/hydra/foo/bar",),
+        ("/home/omry/hydra", "foo/bar", "/home/omry/hydra/foo/bar"),
+        ("/home/omry/hydra/", "foo/bar", "/home/omry/hydra/foo/bar"),
         ("/home/omry/hydra/", "/foo/bar", "/foo/bar"),
     ],
 )

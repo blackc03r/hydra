@@ -155,7 +155,7 @@ def test_prepend(
         ("foo/bar.py", None, None, realpath("foo")),
         ("foo/bar.py", None, "conf", realpath("foo/conf")),
         ("foo/bar.py", None, "../conf", realpath("conf")),
-        ("c:/foo/bar.py", None, "conf", realpath("c:/foo/conf"),),
+        ("c:/foo/bar.py", None, "conf", realpath("c:/foo/conf")),
         ("c:/foo/bar.py", None, "../conf", realpath("c:/conf")),
         # short module name, keep it to avoid empty module error
         (None, "module", None, "pkg://module"),
@@ -165,7 +165,7 @@ def test_prepend(
         (None, "package.module", "../conf", "pkg://conf"),
         (None, "package1.package2.module", "../conf", "pkg://package1/conf"),
         # prefer package
-        ("foo", "package1.package2.module", "../conf", "pkg://package1/conf",),
+        ("foo", "package1.package2.module", "../conf", "pkg://package1/conf"),
     ],
 )
 def test_compute_search_path_dir(

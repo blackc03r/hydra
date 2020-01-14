@@ -76,7 +76,7 @@ base_completion_list: List[str] = [
             [
                 "dict.",
                 "dict_prefix=",
-                "dataset.",
+                "group.",
                 "group=",
                 "hydra.",
                 "hydra/",
@@ -86,7 +86,7 @@ base_completion_list: List[str] = [
             ],
         ),
         ("group=", 2, ["group=dict", "group=list"]),
-        ("group=dict dataset.dict=", 2, ["dataset.dict=true"]),
+        ("group=dict group.dict=", 2, ["group.dict=true"]),
         ("group=dict group=", 2, ["group=dict", "group=list"]),
     ],
 )
@@ -150,8 +150,8 @@ def test_with_flags(line: str, expected: List[str]) -> None:
     [
         ("abc=", "", ["foo.txt"], ["foo.txt"]),
         ("abc=", "fo", ["foo.txt"], ["foo.txt"]),
-        ("abc=", "foo.txt", ["foo.txt"], ["foo.txt"],),
-        ("abc=", "foo", ["foo1.txt", "foo2.txt"], ["foo1.txt", "foo2.txt"],),
+        ("abc=", "foo.txt", ["foo.txt"], ["foo.txt"]),
+        ("abc=", "foo", ["foo1.txt", "foo2.txt"], ["foo1.txt", "foo2.txt"]),
         ("abc=", "foo1", ["foo1.txt", "foo2.txt"], ["foo1.txt"]),
         ("abc=", "foo/bar", [], []),
     ],
