@@ -32,22 +32,16 @@ class TestBasicLauncherIntegration(IntegrationTestSuite):
 @pytest.mark.parametrize(  # type: ignore
     "task_config, overrides, expected_dir",
     [
-        ({"hydra": {"run": {"dir": "arbitrary_package"}}}, [], "arbitrary_package"),
+        ({"hydra": {"run": {"dir": "foo"}}}, [], "foo"),
         ({}, ["hydra.run.dir=bar"], "bar"),
-        (
-            {"hydra": {"run": {"dir": "arbitrary_package"}}},
-            ["hydra.run.dir=boom"],
-            "boom",
-        ),
+        ({"hydra": {"run": {"dir": "foo"}}}, ["hydra.run.dir=boom"], "boom",),
         (
             {
-                "hydra": {
-                    "run": {"dir": "arbitrary_package-${hydra.job.override_dirname}"}
-                },
+                "hydra": {"run": {"dir": "foo-${hydra.job.override_dirname}"}},
                 "app": {"a": 1, "b": 2},
             },
             ["app.a=20"],
-            "arbitrary_package-app.a=20",
+            "foo-app.a=20",
         ),
     ],
 )

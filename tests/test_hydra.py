@@ -316,14 +316,14 @@ def test_sweep_complex_defaults(
         (
             "examples/tutorial/1_simple_cli_app/my_app.py",
             "--help",
-            ["hydra.help.template=arbitrary_package"],
-            "arbitrary_package\n",
+            ["hydra.help.template=foo"],
+            "foo\n",
         ),
         (
             "examples/tutorial/1_simple_cli_app/my_app.py",
             "--help",
-            ["hydra.help.template=$CONFIG", "arbitrary_package=bar"],
-            """arbitrary_package: bar
+            ["hydra.help.template=$CONFIG", "foo=bar"],
+            """foo: bar
 
 """,
         ),
@@ -358,8 +358,8 @@ Overrides : Any key=value arguments to override config values (use dots for.nest
         (
             "examples/tutorial/1_simple_cli_app/my_app.py",
             "--hydra-help",
-            ["hydra.hydra_help.template=arbitrary_package"],
-            "arbitrary_package\n",
+            ["hydra.hydra_help.template=foo"],
+            "foo\n",
         ),
         (
             "examples/tutorial/1_simple_cli_app/my_app.py",
@@ -406,7 +406,7 @@ def test_help(
 def test_interpolating_dir_hydra_to_app(
     task_runner: TTaskRunner, calling_file: str, calling_module: str  # noqa: F811
 ) -> None:
-    basedir = "arbitrary_package"
+    basedir = "foo"
     with task_runner(
         calling_file=calling_file,
         calling_module=calling_module,

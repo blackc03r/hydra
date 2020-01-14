@@ -30,7 +30,7 @@ def create_config_loader() -> ConfigLoaderImpl:
 base_completion_list: List[str] = [
     "dict.",
     "dict_prefix=",
-    "dataset=",
+    "group=",
     "hydra.",
     "hydra/",
     "list.",
@@ -68,16 +68,16 @@ base_completion_list: List[str] = [
         ("hydra/launcher=", 2, ["hydra/launcher=basic", "hydra/launcher=fairtask"]),
         ("hydra/launcher=ba", 2, ["hydra/launcher=basic"]),
         # loading groups
-        ("gro", 2, ["dataset="]),
-        ("dataset=di", 2, ["dataset=dict"]),
+        ("gro", 2, ["group="]),
+        ("group=di", 2, ["group=dict"]),
         (
-            "dataset=dict ",
+            "group=dict ",
             3,
             [
                 "dict.",
                 "dict_prefix=",
                 "dataset.",
-                "dataset=",
+                "group=",
                 "hydra.",
                 "hydra/",
                 "list.",
@@ -85,9 +85,9 @@ base_completion_list: List[str] = [
                 "toys.",
             ],
         ),
-        ("dataset=", 2, ["dataset=dict", "dataset=list"]),
-        ("dataset=dict dataset.dict=", 2, ["dataset.dict=true"]),
-        ("dataset=dict dataset=", 2, ["dataset=dict", "dataset=list"]),
+        ("group=", 2, ["group=dict", "group=list"]),
+        ("group=dict dataset.dict=", 2, ["dataset.dict=true"]),
+        ("group=dict group=", 2, ["group=dict", "group=list"]),
     ],
 )
 class TestCompletion:
@@ -148,22 +148,12 @@ def test_with_flags(line: str, expected: List[str]) -> None:
 @pytest.mark.parametrize(  # type: ignore
     "key_eq, fname_prefix, files, expected",
     [
-        ("abc=", "", ["arbitrary_package.txt"], ["arbitrary_package.txt"]),
-        ("abc=", "fo", ["arbitrary_package.txt"], ["arbitrary_package.txt"]),
-        (
-            "abc=",
-            "arbitrary_package.txt",
-            ["arbitrary_package.txt"],
-            ["arbitrary_package.txt"],
-        ),
-        (
-            "abc=",
-            "arbitrary_package",
-            ["foo1.txt", "foo2.txt"],
-            ["foo1.txt", "foo2.txt"],
-        ),
+        ("abc=", "", ["foo.txt"], ["foo.txt"]),
+        ("abc=", "fo", ["foo.txt"], ["foo.txt"]),
+        ("abc=", "foo.txt", ["foo.txt"], ["foo.txt"],),
+        ("abc=", "foo", ["foo1.txt", "foo2.txt"], ["foo1.txt", "foo2.txt"],),
         ("abc=", "foo1", ["foo1.txt", "foo2.txt"], ["foo1.txt"]),
-        ("abc=", "arbitrary_package/bar", [], []),
+        ("abc=", "foo/bar", [], []),
     ],
 )
 def test_file_completion(
@@ -206,31 +196,31 @@ def test_file_completion(
 
 
 @pytest.mark.parametrize(  # type: ignore
-    "prefix", ["", " ", "\t", "/arbitrary_package/bar", " /arbitrary_package/bar/"],
+    "prefix", ["", " ", "\t", "/foo/bar", " /foo/bar/"],
 )
 @pytest.mark.parametrize(  # type: ignore
     "app_prefix",
     [
-        "python arbitrary_package.py",
+        "python foo.py",
         "hydra_app",
         "hydra_app ",
         "hy1-_=ra_app",
-        "arbitrary_package.par",
+        "foo.par",
         "f_o-o1=2.par",
-        "python  arbitrary_package.py",
+        "python  foo.py",
         "python tutorials/hydra_app/example/hydra_app/main.py",
-        "python arbitrary_package.py",
+        "python foo.py",
     ],
 )
 @pytest.mark.parametrize(  # type: ignore
     "args_line, args_line_index",
     [
         ("", None),
-        ("arbitrary_package=bar", None),
-        ("arbitrary_package=bar bar=baz0", None),
+        ("foo=bar", None),
+        ("foo=bar bar=baz0", None),
         ("", 0),
-        ("arbitrary_package=bar", 3),
-        ("arbitrary_package=bar bar=baz0", 3),
+        ("foo=bar", 3),
+        ("foo=bar bar=baz0", 3),
         ("dict.", 0),
         ("dict.", 5),
     ],

@@ -51,9 +51,9 @@ def test_initialize_with_config_dir() -> None:
     "config_file, overrides, expected",
     [
         (None, [], {}),
-        (None, ["arbitrary_package=bar"], {"arbitrary_package": "bar"}),
-        ("compose.yaml", [], {"arbitrary_package": 10, "bar": 100}),
-        ("compose.yaml", ["group1=file2"], {"arbitrary_package": 20, "bar": 100}),
+        (None, ["foo=bar"], {"foo": "bar"}),
+        ("compose.yaml", [], {"foo": 10, "bar": 100}),
+        ("compose.yaml", ["group1=file2"], {"foo": 20, "bar": 100}),
     ],
 )
 class TestCompose:

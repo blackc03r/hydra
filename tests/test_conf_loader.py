@@ -91,10 +91,10 @@ class TestConfigLoader:
         config_loader = ConfigLoaderImpl(config_search_path=create_search_path([path]))
         # Test that overriding existing things works in strict mode
         cfg = config_loader.load_configuration(
-            config_file="compose.yaml", overrides=["arbitrary_package=ZZZ"], strict=True
+            config_file="compose.yaml", overrides=["foo=ZZZ"], strict=True
         )
         del cfg["hydra"]
-        assert cfg == {"arbitrary_package": "ZZZ", "bar": 100}
+        assert cfg == {"foo": "ZZZ", "bar": 100}
 
         # Test that accessing a key that is not there will fail
         with pytest.raises(AttributeError):
@@ -121,7 +121,7 @@ class TestConfigLoader:
             ("hydra/help/default.yaml", "pkg://hydra.conf", "hydra"),
             ("hydra/hydra_help/default.yaml", "pkg://hydra.conf", "hydra"),
             ("missing-optional-default.yaml", path, "test"),
-            ("arbitrary_package/missing.yaml", None, None),
+            ("foo/missing.yaml", None, None),
         ]
 
     def test_load_history_with_basic_launcher(self, path: str) -> None:
@@ -271,7 +271,7 @@ def test_override_hydra_config_value_from_config_file() -> None:
     cfg = config_loader.load_configuration(
         config_file="overriding_output_dir.yaml", overrides=[], strict=False
     )
-    assert cfg.hydra.run.dir == "arbitrary_package"
+    assert cfg.hydra.run.dir == "foo"
 
 
 def test_override_hydra_config_group_from_config_file() -> None:
@@ -343,7 +343,7 @@ def test_non_config_group_default() -> None:
 
 def test_mixed_composition_order() -> None:
     """
-    Tests that the order of mixed composition (defaults contains both config dataset and non config dataset
+    Tests that the order of mixed composition (defaults contains both config group and non config group
     items) is correct
     """
     config_loader = ConfigLoaderImpl(

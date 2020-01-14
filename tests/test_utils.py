@@ -106,7 +106,7 @@ def test_class_instantiate_passthrough(
 
 
 def test_get_original_cwd() -> None:
-    orig = "/arbitrary_package/bar"
+    orig = "/foo/bar"
     cfg = OmegaConf.create({"hydra": {"runtime": {"cwd": orig}}})
     assert isinstance(cfg, DictConfig)
     HydraConfig().set_config(cfg)
@@ -116,17 +116,9 @@ def test_get_original_cwd() -> None:
 @pytest.mark.parametrize(  # type: ignore
     "orig_cwd, path, expected",
     [
-        (
-            "/home/omry/hydra",
-            "arbitrary_package/bar",
-            "/home/omry/hydra/arbitrary_package/bar",
-        ),
-        (
-            "/home/omry/hydra/",
-            "arbitrary_package/bar",
-            "/home/omry/hydra/arbitrary_package/bar",
-        ),
-        ("/home/omry/hydra/", "/arbitrary_package/bar", "/arbitrary_package/bar"),
+        ("/home/omry/hydra", "foo/bar", "/home/omry/hydra/foo/bar",),
+        ("/home/omry/hydra/", "foo/bar", "/home/omry/hydra/foo/bar",),
+        ("/home/omry/hydra/", "/foo/bar", "/foo/bar"),
     ],
 )
 def test_to_absolute_path(orig_cwd: str, path: str, expected: str) -> None:

@@ -62,7 +62,7 @@ def test_find_first_match(
     "base_list, provider, path, anchor_provider, result_list",
     [
         # appending to an empty list
-        ([], "arbitrary_package", "/path", None, [("arbitrary_package", "/path")]),
+        ([], "foo", "/path", None, [("foo", "/path")]),
         # appending to a non empty list
         ([("f1", "/p1")], "f2", "/p2", None, [("f1", "/p1"), ("f2", "/p2")]),
         # appending after an anchor at index 0
@@ -107,30 +107,30 @@ def test_append(
     "base_list, provider, path, anchor_provider, result_list",
     [
         # prepending to an empty list
-        ([], "arbitrary_package", "/path", None, [("arbitrary_package", "/path")]),
+        ([], "foo", "/path", None, [("foo", "/path")]),
         # prepending to a full list
         (
-            [("arbitrary_package", "/path")],
+            [("foo", "/path")],
             "foo2",
             "/path2",
             None,
-            [("foo2", "/path2"), ("arbitrary_package", "/path")],
+            [("foo2", "/path2"), ("foo", "/path")],
         ),
         # prepending in front of an anchor at index 0
         (
-            [("arbitrary_package", "/path")],
+            [("foo", "/path")],
             "foo2",
             "/path2",
-            SearchPathQuery("arbitrary_package", "/path"),
-            [("foo2", "/path2"), ("arbitrary_package", "/path")],
+            SearchPathQuery("foo", "/path"),
+            [("foo2", "/path2"), ("foo", "/path")],
         ),
         # prepending in front of an anchor at index 1
         (
-            [("arbitrary_package", "/path"), ("foo2", "/path2")],
+            [("foo", "/path"), ("foo2", "/path2")],
             "foo3",
             "/path3",
             SearchPathQuery("foo2", "/path2"),
-            [("arbitrary_package", "/path"), ("foo3", "/path3"), ("foo2", "/path2")],
+            [("foo", "/path"), ("foo3", "/path3"), ("foo2", "/path2")],
         ),
         # prepending in front of a none existing anchor results in prepending to the head of the list
         ([], "foo2", "/path2", "does not exist", [("foo2", "/path2")]),
@@ -151,17 +151,12 @@ def test_prepend(
 @pytest.mark.parametrize(  # type:ignore
     "calling_file, calling_module, config_dir, expected",
     [
-        ("arbitrary_package.py", None, None, realpath("")),
-        ("arbitrary_package/bar.py", None, None, realpath("arbitrary_package")),
-        ("arbitrary_package/bar.py", None, "conf", realpath("arbitrary_package/conf")),
-        ("arbitrary_package/bar.py", None, "../conf", realpath("conf")),
-        (
-            "c:/arbitrary_package/bar.py",
-            None,
-            "conf",
-            realpath("c:/arbitrary_package/conf"),
-        ),
-        ("c:/arbitrary_package/bar.py", None, "../conf", realpath("c:/conf")),
+        ("foo.py", None, None, realpath("")),
+        ("foo/bar.py", None, None, realpath("foo")),
+        ("foo/bar.py", None, "conf", realpath("foo/conf")),
+        ("foo/bar.py", None, "../conf", realpath("conf")),
+        ("c:/foo/bar.py", None, "conf", realpath("c:/foo/conf"),),
+        ("c:/foo/bar.py", None, "../conf", realpath("c:/conf")),
         # short module name, keep it to avoid empty module error
         (None, "module", None, "pkg://module"),
         (None, "package.module", None, "pkg://package"),
@@ -170,12 +165,7 @@ def test_prepend(
         (None, "package.module", "../conf", "pkg://conf"),
         (None, "package1.package2.module", "../conf", "pkg://package1/conf"),
         # prefer package
-        (
-            "arbitrary_package",
-            "package1.package2.module",
-            "../conf",
-            "pkg://package1/conf",
-        ),
+        ("foo", "package1.package2.module", "../conf", "pkg://package1/conf",),
     ],
 )
 def test_compute_search_path_dir(

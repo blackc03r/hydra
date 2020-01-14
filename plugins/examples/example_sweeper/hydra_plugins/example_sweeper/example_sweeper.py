@@ -51,11 +51,7 @@ class ExampleSweeper(Sweeper):
     def sweep(self, arguments: List[str]) -> Any:
         assert self.config is not None
         assert self.launcher is not None
-        log.info(
-            "ExampleSweeper (arbitrary_package={}, bar={}) sweeping".format(
-                self.foo, self.bar
-            )
-        )
+        log.info("ExampleSweeper (foo={}, bar={}) sweeping".format(self.foo, self.bar))
         log.info("Sweep output dir : {}".format(self.config.hydra.sweep.dir))
         # Construct list of overrides per job we want to launch
         src_lists = []
