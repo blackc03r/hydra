@@ -11,16 +11,8 @@ from hydra import utils
 def my_app(_cfg: DictConfig) -> None:
     print("Current working directory  : {}".format(os.getcwd()))
     print("Original working directory : {}".format(utils.get_original_cwd()))
-    print(
-        "to_absolute_path('arbitrary_package')    : {}".format(
-            utils.to_absolute_path("arbitrary_package")
-        )
-    )
-    print(
-        "to_absolute_path('/arbitrary_package')   : {}".format(
-            utils.to_absolute_path("/arbitrary_package")
-        )
-    )
+    print("to_absolute_path('foo')    : {}".format(utils.to_absolute_path("foo")))
+    print("to_absolute_path('/foo')   : {}".format(utils.to_absolute_path("/foo")))
 
 
 if __name__ == "__main__":

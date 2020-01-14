@@ -15,7 +15,7 @@ log = logging.getLogger(__name__)
 
 
 class BashCompletion(CompletionPlugin):
-    # TODO: detect python with path like /arbitrary_package/bar/python
+    # TODO: detect python with path like /foo/bar/python
     def install(self) -> None:
         script = """hydra_bash_completion()
 {

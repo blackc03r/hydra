@@ -4,7 +4,7 @@
 Basic sweeper can generate cartesian products of multiple input commands, each with a
 comma separated list of values.
 for example, for:
-python arbitrary_package.py a=1,2,3 b=10,20
+python foo.py a=1,2,3 b=10,20
 Basic Sweeper would generate 6 jobs:
 1,10
 1,20
